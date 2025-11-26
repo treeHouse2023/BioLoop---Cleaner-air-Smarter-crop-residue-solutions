@@ -1,0 +1,92 @@
+.booking-wrapper {
+  margin-top: 24px;
+}
+
+.booking-lead {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #d1d5db;
+}
+
+.booking-steps {
+  margin-top: 10px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: #cbd5f5;
+  padding-left: 18px;
+}
+
+.booking-steps li {
+  margin-bottom: 4px;
+}
+
+.booking-form-wrapper {
+  margin-top: 16px;
+}
+
+.booking-form-heading {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.form-section-title {
+  margin-top: 16px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px 16px;
+  margin-bottom: 8px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-field-full {
+  grid-column: 1 / -1;
+}
+
+.form-field label {
+  font-size: 13px;
+  color: #e5e7eb;
+}
+
+/* reuse your contact styles, or add these if missing */
+.contact-input,
+.contact-textarea {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid #4b5563;
+  background: #020617;
+  color: #e5e7eb;
+  font-size: 14px;
+  outline: none;
+}
+
+.contact-input::placeholder,
+.contact-textarea::placeholder {
+  color: #6b7280;
+}
+
+.contact-textarea {
+  resize: vertical;
+}
+
+.contact-submit-btn {
+  margin-top: 14px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  background: #22c55e;
+  color: #020617;
+}

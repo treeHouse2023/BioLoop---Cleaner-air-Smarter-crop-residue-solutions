@@ -1,0 +1,347 @@
+/* Wrapper inside the global .card */
+.about-wrapper {
+  padding: 28px 30px;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden; /* prevents any horizontal leak */
+}
+
+/* ========== HERO ========== */
+
+.about-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.about-hero-text {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.about-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.about-title-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: #22c55e;
+  color: #020617;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.about-subtitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+.about-lead {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #d1d5db;
+}
+
+.about-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.about-badge {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #16a34a;
+  background: rgba(22, 163, 74, 0.08);
+  color: #bbf7d0;
+}
+
+/* Hero image */
+.about-hero-image {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid #1f2937;
+  background: #020617;
+}
+
+.about-hero-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ========== SECTIONS ========== */
+
+.about-section {
+  margin-top: 30px;
+  padding-top: 18px;
+  border-top: 1px solid #111827;
+}
+
+.about-heading {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.about-text {
+  font-size: 14px;
+  color: #d1d5db;
+  line-height: 1.6;
+}
+
+/* two-column generic layout */
+
+.about-two-col {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 24px;
+  margin-top: 10px;
+}
+
+.about-subheading {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.about-list {
+  margin-top: 8px;
+  padding-left: 18px;
+  font-size: 14px;
+  color: #d1d5db;
+}
+
+.about-list li + li {
+  margin-top: 4px;
+}
+
+/* Highlight box on the right */
+
+.about-highlight-box {
+  border-radius: 16px;
+  border: 1px solid #4b5563;
+  background: radial-gradient(circle at top, #111827, #020617);
+  padding: 16px 18px;
+}
+
+.about-highlight-number {
+  font-size: 26px;
+  font-weight: 800;
+  color: #facc15;
+}
+
+.about-highlight-text {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #e5e7eb;
+}
+
+.about-highlight-note {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* ========== “BIOLOOP LOOP” STEPS ========== */
+
+.loop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.loop-step {
+  border-radius: 14px;
+  border: 1px solid #1f2937;
+  background: #020617;
+  padding: 12px 14px;
+}
+
+.loop-step-number {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: #0f766e;
+  color: #e5e7eb;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.loop-step h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.loop-step p {
+  font-size: 13px;
+  color: #d1d5db;
+}
+
+/* NEW: images inside loop cards */
+.loop-img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 140px;
+  object-fit: cover;
+  margin-top: 8px;
+  border-radius: 10px;
+  border: 1px solid #1f2937;
+  background: #020617;
+}
+
+/* ========== FEATURE GRID ========== */
+
+.about-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.about-feature-card {
+  border-radius: 14px;
+  border: 1px solid #1f2937;
+  background: #020617;
+  padding: 14px 16px;
+}
+
+.about-feature-card h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.about-feature-card p {
+  font-size: 13px;
+  color: #d1d5db;
+}
+
+/* NEW: images inside feature cards */
+.feature-img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 140px;
+  object-fit: cover;
+  margin-top: 8px;
+  border-radius: 10px;
+  border: 1px solid #1f2937;
+  background: #020617;
+}
+
+/* ========== IMPACT GRID ========== */
+
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.impact-card {
+  border-radius: 14px;
+  border: 1px solid #14532d;
+  background: radial-gradient(circle at top, #022c22, #020617);
+  padding: 14px 16px;
+}
+
+.impact-card h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.impact-card p {
+  font-size: 13px;
+  color: #d1fae5;
+}
+
+/* ========== SIDE IMAGE (HEALTH) ========== */
+
+.about-side-image {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #1f2937;
+  background: #020617;
+}
+
+.about-side-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ========== GALLERY STRIP ========== */
+
+.about-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  margin-top: 26px;
+  padding-top: 14px;
+  border-top: 1px dashed #1f2937;
+}
+
+.about-gallery img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid #1f2937;
+  background: #020617;
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 900px) {
+  .about-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .about-two-col {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .about-wrapper {
+    padding: 22px 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .about-title {
+    font-size: 24px;
+  }
+
+  .about-subtitle {
+    font-size: 16px;
+  }
+
+  .about-lead {
+    font-size: 13px;
+  }
+}

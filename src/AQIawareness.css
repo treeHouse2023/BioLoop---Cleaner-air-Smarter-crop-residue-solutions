@@ -1,0 +1,241 @@
+.aqi-awareness {
+  margin-top: 16px;
+}
+
+/* Hero section */
+.aqi-hero h1 {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.aqi-lead {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #d1d5db;
+}
+
+.aqi-hero-grid {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.aqi-hero-card {
+  background: #020617;
+  border-radius: 14px;
+  border: 1px solid #1f2937;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: #d1d5db;
+}
+
+.aqi-hero-card h3 {
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.aqi-hero-card ul {
+  padding-left: 18px;
+  margin-top: 4px;
+}
+
+.aqi-note {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* Tabs */
+.aqi-tabs-section {
+  margin-top: 24px;
+}
+
+.aqi-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 12px;
+  border-radius: 999px;
+  background: #020617;
+  border: 1px solid #1f2937;
+  overflow-x: auto;
+}
+
+.aqi-tab-button {
+  border: none;
+  background: transparent;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: #e5e7eb;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.aqi-tab-button-active {
+  background: #e5f6ff;
+  color: #0f766e;
+  font-weight: 600;
+}
+
+.aqi-tab-content {
+  margin-top: 4px;
+}
+
+.aqi-tab-title {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.aqi-tab-description {
+  font-size: 13px;
+  color: #d1d5db;
+  margin-bottom: 10px;
+}
+
+/* Table / rows */
+.aqi-table {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.aqi-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #020617;
+  border: 1px solid #1f2937;
+  font-size: 13px;
+}
+
+.aqi-row-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.aqi-color-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+}
+
+.aqi-row-label {
+  font-weight: 600;
+}
+
+.aqi-row-range {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.aqi-row-text {
+  flex: 1;
+  color: #e5e7eb;
+}
+
+/* Daily tips section */
+.aqi-daily-tips {
+  margin-top: 24px;
+}
+
+.aqi-daily-tips h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.aqi-tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.aqi-tip-card {
+  background: #020617;
+  border-radius: 14px;
+  border: 1px solid #1f2937;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: #d1d5db;
+}
+
+.aqi-tip-card h3 {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+/* Mobile tweaks */
+@media (max-width: 640px) {
+  .aqi-hero h1 {
+    font-size: 22px;
+  }
+}
+
+/* ========== SOURCE / IQAIR SECTION ========== */
+
+.aqi-source-section {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #111827;
+}
+
+.aqi-source-section h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.aqi-source-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.aqi-source-card {
+  background: #020617;
+  border-radius: 14px;
+  border: 1px solid #1f2937;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: #d1d5db;
+  line-height: 1.6;
+}
+
+.aqi-source-card h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.aqi-source-card ul {
+  margin-top: 6px;
+  padding-left: 18px;
+  font-size: 13px;
+  color: #d1d5db;
+}
+
+.aqi-source-note {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.aqi-source-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  color: #a5b4fc;
+  border-bottom: 1px dashed #4f46e5;
+}
+
+.aqi-source-link:hover {
+  opacity: 0.9;
+}
