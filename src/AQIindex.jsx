@@ -5,8 +5,219 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 const API_KEY = "/rEtAIVRBj912jCd93o/+A==si91O9eDG2ljRnQo";
 
 const CITY_SUGGESTIONS = [
-  // you can keep this empty or paste your big list again
+  // optional: put your city list here
 ];
+
+/* ---------------------- BASIC HELPERS ---------------------- */
+
+function toNumberSafe(v) {
+  if (v === null || v === undefined) return null;
+  const n = Number(v);
+  return Number.isNaN(n) ? null : n;
+}
+
+function deg2rad(deg) {
+  return (deg * Math.PI) / 180;
+}
+
+function distanceKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = deg2rad(lat2 - lat1);
+  const dLon = deg2rad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) *
+      Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+/* ---------------------- INDIAN AQI BREAKPOINTS (CPCB) ---------------------- */
+
+const AQI_BREAKPOINTS = {
+  PM10: [
+    { cLow: 0, cHigh: 50, iLow: 0, iHigh: 50 },
+    { cLow: 51, cHigh: 100, iLow: 51, iHigh: 100 },
+    { cLow: 101, cHigh: 250, iLow: 101, iHigh: 200 },
+    { cLow: 251, cHigh: 350, iLow: 201, iHigh: 300 },
+    { cLow: 351, cHigh: 430, iLow: 301, iHigh: 400 },
+    { cLow: 431, cHigh: 10000, iLow: 401, iHigh: 500 },
+  ],
+  "PM2.5": [
+    { cLow: 0, cHigh: 30, iLow: 0, iHigh: 50 },
+    { cLow: 31, cHigh: 60, iLow: 51, iHigh: 100 },
+    { cLow: 61, cHigh: 90, iLow: 101, iHigh: 200 },
+    { cLow: 91, cHigh: 120, iLow: 201, iHigh: 300 },
+    { cLow: 121, cHigh: 250, iLow: 301, iHigh: 400 },
+    { cLow: 251, cHigh: 1000, iLow: 401, iHigh: 500 },
+  ],
+  NO2: [
+    { cLow: 0, cHigh: 40, iLow: 0, iHigh: 50 },
+    { cLow: 41, cHigh: 80, iLow: 51, iHigh: 100 },
+    { cLow: 81, cHigh: 180, iLow: 101, iHigh: 200 },
+    { cLow: 181, cHigh: 280, iLow: 201, iHigh: 300 },
+    { cLow: 281, cHigh: 400, iLow: 301, iHigh: 400 },
+    { cLow: 401, cHigh: 1000, iLow: 401, iHigh: 500 },
+  ],
+  SO2: [
+    { cLow: 0, cHigh: 40, iLow: 0, iHigh: 50 },
+    { cLow: 41, cHigh: 80, iLow: 51, iHigh: 100 },
+    { cLow: 81, cHigh: 380, iLow: 101, iHigh: 200 },
+    { cLow: 381, cHigh: 800, iLow: 201, iHigh: 300 },
+    { cLow: 801, cHigh: 1600, iLow: 301, iHigh: 400 },
+    { cLow: 1601, cHigh: 5000, iLow: 401, iHigh: 500 },
+  ],
+  CO: [
+    { cLow: 0, cHigh: 1.0, iLow: 0, iHigh: 50 },
+    { cLow: 1.1, cHigh: 2.0, iLow: 51, iHigh: 100 },
+    { cLow: 2.1, cHigh: 10.0, iLow: 101, iHigh: 200 },
+    { cLow: 10.1, cHigh: 17.0, iLow: 201, iHigh: 300 },
+    { cLow: 17.1, cHigh: 34.0, iLow: 301, iHigh: 400 },
+    { cLow: 34.1, cHigh: 1000.0, iLow: 401, iHigh: 500 },
+  ],
+  OZONE: [
+    { cLow: 0, cHigh: 50, iLow: 0, iHigh: 50 },
+    { cLow: 51, cHigh: 100, iLow: 51, iHigh: 100 },
+    { cLow: 101, cHigh: 168, iLow: 101, iHigh: 200 },
+    { cLow: 169, cHigh: 208, iLow: 201, iHigh: 300 },
+    { cLow: 209, cHigh: 748, iLow: 301, iHigh: 400 },
+    { cLow: 749, cHigh: 5000, iLow: 401, iHigh: 500 },
+  ],
+  NH3: [
+    { cLow: 0, cHigh: 200, iLow: 0, iHigh: 50 },
+    { cLow: 201, cHigh: 400, iLow: 51, iHigh: 100 },
+    { cLow: 401, cHigh: 800, iLow: 101, iHigh: 200 },
+    { cLow: 801, cHigh: 1200, iLow: 201, iHigh: 300 },
+    { cLow: 1201, cHigh: 1800, iLow: 301, iHigh: 400 },
+    { cLow: 1801, cHigh: 5000, iLow: 401, iHigh: 500 },
+  ],
+};
+
+function calcSubIndex(pollutantId, concRaw) {
+  const conc = toNumberSafe(concRaw);
+  if (conc === null) return null;
+
+  const table = AQI_BREAKPOINTS[pollutantId];
+  if (!table) return null;
+
+  for (const row of table) {
+    if (conc >= row.cLow && conc <= row.cHigh) {
+      const { cLow, cHigh, iLow, iHigh } = row;
+      const aqi =
+        ((iHigh - iLow) / (cHigh - cLow || 1)) * (conc - cLow) + iLow;
+      return Math.round(aqi);
+    }
+  }
+
+  return 500;
+}
+
+/* ----------- BUILD STATIONS FROM CPCB JSON RECORDS ----------- */
+
+function buildStationsFromRecords(records = []) {
+  const map = new Map();
+
+  records.forEach((rec) => {
+    const {
+      country,
+      state,
+      city,
+      station,
+      last_update,
+      latitude,
+      longitude,
+      pollutant_id,
+      avg_value,
+    } = rec;
+
+    const key = `${country}|${state}|${city}|${station}|${last_update}`;
+    if (!map.has(key)) {
+      map.set(key, {
+        country,
+        state,
+        city,
+        station,
+        last_update,
+        latitude: toNumberSafe(latitude),
+        longitude: toNumberSafe(longitude),
+        pollutants: {},
+      });
+    }
+
+    const entry = map.get(key);
+    if (pollutant_id) {
+      entry.pollutants[pollutant_id] = {
+        avg: toNumberSafe(avg_value),
+      };
+    }
+  });
+
+  return Array.from(map.values());
+}
+
+function findBestCpcbStation(stations, lat, lon, cityName, stateName) {
+  if (!stations.length || lat == null || lon == null) return null;
+
+  const cityLower = cityName ? cityName.toLowerCase() : "";
+  const stateLower = stateName ? stateName.toLowerCase() : "";
+
+  let best = null;
+  let bestScore = Infinity;
+
+  stations.forEach((st) => {
+    if (st.latitude == null || st.longitude == null) return;
+
+    const stCity = (st.city || "").toLowerCase();
+    const stState = (st.state || "").toLowerCase();
+
+    const sameCity = cityLower && stCity.includes(cityLower);
+    const sameState = stateLower && stState.includes(stateLower);
+
+    const d = distanceKm(lat, lon, st.latitude, st.longitude);
+
+    let score = d;
+    if (sameState) score *= 0.6;
+    if (sameCity) score *= 0.4;
+
+    if (score < bestScore) {
+      bestScore = score;
+      best = st;
+    }
+  });
+
+  return best;
+}
+
+function computeStationAqi(station) {
+  if (!station || !station.pollutants) return null;
+
+  const ids = Object.keys(station.pollutants);
+  if (!ids.length) return null;
+
+  const subIndices = [];
+
+  ids.forEach((id) => {
+    const conc = station.pollutants[id]?.avg;
+    if (conc == null) return;
+
+    let fixedConc = conc;
+
+    if (id === "CO" && conc > 100) {
+      fixedConc = conc / 1000;
+    }
+
+    const sub = calcSubIndex(id, fixedConc);
+    if (sub != null) subIndices.push(sub);
+  });
+
+  if (!subIndices.length) return null;
+
+  return Math.max(...subIndices);
+}
+
+/* ---------------------- EXISTING UI HELPERS ---------------------- */
 
 function getAqiCategory(aqi) {
   if (aqi === null || aqi === undefined)
@@ -35,9 +246,26 @@ function getDominantPollutant(data) {
   return bestKey;
 }
 
-/* ---------------- HEALTH ADVICE ---------------- */
+/* ---------------- HEALTH ADVICE (same as before) ---------------- */
 
 function getHealthAdvice(aqi, pm25, city) {
+  if (typeof aqi !== "number" || isNaN(aqi)) {
+    return {
+      severity: "Unknown",
+      headline: `No live AQI data available for ${city || "this location"}`,
+      summary:
+        "Live AQI data is not available right now. Once data is fetched, you will see detailed health guidance here.",
+      doList: [
+        "If you have breathing problems, keep your regular medicines handy.",
+        "Avoid heavy exercise near traffic or construction dust.",
+      ],
+      dontList: [],
+      risks: [],
+      solutions: [],
+      cigarettes: null,
+    };
+  }
+
   let severity = "";
   let headline = "";
   let summary = "";
@@ -74,7 +302,10 @@ function getHealthAdvice(aqi, pm25, city) {
       "Consider mild indoor workouts.",
     ];
     dontList = ["Do not ignore symptoms like mild cough or throat irritation."];
-    risks = ["Minor risk for asthma patients.", "Mild breathing discomfort for elderly."];
+    risks = [
+      "Minor risk for asthma patients.",
+      "Mild breathing discomfort for elderly.",
+    ];
     solutions = [
       { item: "Air Purifier", status: "Optional" },
       { item: "N95 Mask", status: "Optional" },
@@ -206,7 +437,7 @@ function getHealthAdvice(aqi, pm25, city) {
   };
 }
 
-/* ---------------- STUBBLE / SOURCE PREDICTION ---------------- */
+/* -------- STUBBLE PREDICTION + CHART (same logic as before) -------- */
 
 function predictPollutionSource({ aqiData, regionInfo, city, overallAqi }) {
   if (!aqiData) {
@@ -214,15 +445,17 @@ function predictPollutionSource({ aqiData, regionInfo, city, overallAqi }) {
       title: "Not enough data",
       stubbleLikelihood: "Unknown",
       tags: [],
-      points: ["Live air quality data is missing, so we can’t infer the main sources."],
+      points: [
+        "Live air quality data is missing, so we can’t infer the main sources.",
+      ],
       disclaimer:
-        "This is only a rough, educational guess based on patterns – not a certified scientific analysis.",
+        "This is only a rough prediction based on location, season and pollutant pattern. It is NOT a legal report or official source attribution.",
     };
   }
 
   const now = new Date();
   const month = now.getMonth();
-  const isStubbleSeason = month === 9 || month === 10 || month === 11; // Oct–Dec
+  const isStubbleSeason = month === 9 || month === 10 || month === 11;
 
   const state = regionInfo?.state || "";
   const country = regionInfo?.country || "";
@@ -243,8 +476,14 @@ function predictPollutionSource({ aqiData, regionInfo, city, overallAqi }) {
   const lowerState = state.toLowerCase();
   const lowerCity = cityName.toLowerCase();
 
+  const countryLower = country.toLowerCase();
+  const inIndia =
+    countryLower === "india" ||
+    countryLower === "republic of india" ||
+    countryLower === "in";
+
   const inStubbleBelt =
-    country.toLowerCase() === "in" &&
+    inIndia &&
     (STUBBLE_STATES.some((s) => lowerState.includes(s.toLowerCase())) ||
       /delhi|noida|ghaziabad|gurugram|gautam buddha nagar|faridabad|ludhiana|patiala|amritsar|bathinda|hisar|karnal|kurukshetra/.test(
         lowerCity
@@ -272,7 +511,11 @@ function predictPollutionSource({ aqiData, regionInfo, city, overallAqi }) {
   if (inStubbleBelt && isStubbleSeason && pmDominated && overallAqi >= 150) {
     title = "High probability: Stubble burning is a major contributor today.";
     stubbleLikelihood = "High";
-    tags.push("Indo-Gangetic stubble belt", "Stubble season (Oct–Dec)", "PM₂.₅-heavy pollution");
+    tags.push(
+      "Indo-Gangetic stubble belt",
+      "Stubble season (Oct–Dec)",
+      "PM₂.₅-heavy pollution"
+    );
     points.push(
       "Location lies in a known stubble-burning region (Punjab–Haryana–UP–Bihar–Rajasthan–Delhi belt).",
       "It is currently peak burning season (October–December).",
@@ -307,9 +550,11 @@ function predictPollutionSource({ aqiData, regionInfo, city, overallAqi }) {
       "Sources may include local trash burning, domestic fuel, construction dust and vehicles."
     );
   } else {
-    title = "General urban mix: traffic, domestic fuel, dust and local industry.";
+    title =
+      "General urban mix: traffic, domestic fuel, dust and local industry.";
     stubbleLikelihood = inStubbleBelt ? "Medium (background)" : "Low";
-    if (inStubbleBelt) tags.push("Stubble belt (background influence possible)");
+    if (inStubbleBelt)
+      tags.push("Stubble belt (background influence possible)");
     points.push(
       "Pollution levels and pattern do not strongly match a pure stubble-burning episode.",
       "Likely a mix of everyday sources: vehicles, construction dust, local industry and household fuel.",
@@ -323,7 +568,7 @@ function predictPollutionSource({ aqiData, regionInfo, city, overallAqi }) {
   return { title, stubbleLikelihood, tags, points, disclaimer };
 }
 
-/* ---------- convert prediction into bar chart percentages ---------- */
+/* ------------- UPDATED: MAKE SOURCE SHARES TRULY DYNAMIC ------------- */
 
 function computeSourceShares(stubbleLikelihood, aqiData) {
   const pm25 = aqiData?.["PM2.5"]?.aqi ?? 0;
@@ -333,64 +578,57 @@ function computeSourceShares(stubbleLikelihood, aqiData) {
   const so2 = aqiData?.SO2?.aqi ?? 0;
   const co = aqiData?.CO?.aqi ?? 0;
 
-  let stubble, traffic, industry, dust, domestic;
-
-  if (stubbleLikelihood === "High") {
-    stubble = 55;
-    traffic = 18;
-    industry = 12;
-    dust = 10;
-    domestic = 5;
-  } else if (stubbleLikelihood === "Medium") {
-    stubble = 35;
-    traffic = 25;
-    industry = 15;
-    dust = 15;
-    domestic = 10;
-  } else if (stubbleLikelihood === "Very Low") {
-    stubble = 5;
-    traffic = 35;
-    industry = 25;
-    dust = 20;
-    domestic = 15;
-  } else {
-    // Low / Unknown
-    stubble = 15;
-    traffic = 30;
-    industry = 20;
-    dust = 20;
-    domestic = 15;
-  }
-
-  const gasScore = no2 + so2 + o3 + co;
   const particleScore = pm25 + pm10;
+  const gasScore = no2 + o3 + so2 + co;
 
-  if (gasScore > particleScore * 1.2) {
-    const extra = 10;
-    traffic += extra * 0.6;
-    industry += extra * 0.4;
-    stubble = Math.max(0, stubble - extra);
+  // If we somehow have no data at all, fall back to a neutral split
+  if (particleScore === 0 && gasScore === 0) {
+    return [
+      { key: "stubble", label: "Stubble burning", value: 15 },
+      { key: "traffic", label: "Traffic & vehicles", value: 30 },
+      { key: "industry", label: "Industry & power", value: 20 },
+      { key: "dust", label: "Dust & construction", value: 20 },
+      { key: "domestic", label: "Household & others", value: 15 },
+    ];
   }
 
-  const total = stubble + traffic + industry + dust + domestic || 1;
+  // Base scores derived from actual pollutant pattern
+  let stubbleScore = particleScore * 0.6; // stubble linked strongly to particles
+  let trafficScore = (no2 + co) * 1.0; // traffic -> NO2 + CO
+  let industryScore = (so2 + 0.3 * no2) * 1.0; // industry/power -> SO2 + part of NO2
+  let dustScore = pm10 * 0.8; // coarse particles
+  let domesticScore = particleScore * 0.2 + gasScore * 0.1; // background domestic/others
+
+  // Bias based on stubbleLikelihood (but still driven by pollutant data)
+  let stubbleFactor = 0.8;
+  if (stubbleLikelihood === "High") stubbleFactor = 1.4;
+  else if (stubbleLikelihood === "Medium") stubbleFactor = 1.15;
+  else if (stubbleLikelihood === "Very Low") stubbleFactor = 0.4;
+
+  stubbleScore *= stubbleFactor;
+
+  // Normalise to percentages
+  const total =
+    stubbleScore + trafficScore + industryScore + dustScore + domesticScore || 1;
 
   const toPct = (v) => Math.round((v / total) * 100);
 
   return [
-    { key: "stubble", label: "Stubble burning", value: toPct(stubble) },
-    { key: "traffic", label: "Traffic & vehicles", value: toPct(traffic) },
-    { key: "industry", label: "Industry & power", value: toPct(industry) },
-    { key: "dust", label: "Dust & construction", value: toPct(dust) },
-    { key: "domestic", label: "Household & others", value: toPct(domestic) },
+    { key: "stubble", label: "Stubble burning", value: toPct(stubbleScore) },
+    { key: "traffic", label: "Traffic & vehicles", value: toPct(trafficScore) },
+    { key: "industry", label: "Industry & power", value: toPct(industryScore) },
+    { key: "dust", label: "Dust & construction", value: toPct(dustScore) },
+    { key: "domestic", label: "Household & others", value: toPct(domesticScore) },
   ];
 }
-
-/* ---------- bar chart component ---------- */
 
 function PollutionSourceChart({ sourceInsight, aqiData }) {
   if (!sourceInsight || !aqiData) return null;
 
-  const shares = computeSourceShares(sourceInsight.stubbleLikelihood, aqiData);
+  const shares = computeSourceShares(
+    sourceInsight.stubbleLikelihood,
+    aqiData
+  );
 
   return (
     <div className="source-chart-section">
@@ -416,9 +654,7 @@ function PollutionSourceChart({ sourceInsight, aqiData }) {
                 }
                 style={{ height: `${s.value}%` }}
               >
-                <span className="source-chart-bar-value">
-                  {s.value}%
-                </span>
+                <span className="source-chart-bar-value">{s.value}%</span>
               </div>
               <span className="source-chart-bar-label">{s.label}</span>
             </div>
@@ -433,13 +669,32 @@ function PollutionSourceChart({ sourceInsight, aqiData }) {
 
 function App() {
   const [aqiData, setAqiData] = useState(null);
-  const [coords, setCoords] = useState([20.5937, 78.9629]); // India default
+  const [coords, setCoords] = useState([31.326, 75.5762]); // Jalandhar default
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
-  const [currentCity, setCurrentCity] = useState("EARTH");
+  const [currentCity, setCurrentCity] = useState("Jalandhar");
   const [suggestions, setSuggestions] = useState([]);
   const [regionInfo, setRegionInfo] = useState(null);
+
+  const [cpcbStations, setCpcbStations] = useState([]);
+  const [cpcbMatch, setCpcbMatch] = useState(null);
+
+  // Load CPCB JSON once from public folder
+  useEffect(() => {
+    const loadCpcb = async () => {
+      try {
+        const res = await fetch("/cpcb_realtime.json");
+        if (!res.ok) return;
+        const json = await res.json();
+        const stations = buildStationsFromRecords(json.records || []);
+        setCpcbStations(stations);
+      } catch (err) {
+        console.error("Failed to load CPCB realtime JSON:", err);
+      }
+    };
+    loadCpcb();
+  }, []);
 
   const fetchAQIAndLocation = async (city) => {
     try {
@@ -447,6 +702,7 @@ function App() {
       setError("");
       setAqiData(null);
       setRegionInfo(null);
+      setCpcbMatch(null);
 
       const cityParam = encodeURIComponent(city);
 
@@ -479,17 +735,50 @@ function App() {
       }
       setAqiData(aqiJson);
 
+      let lat = null;
+      let lon = null;
+      let country = "";
+      let state = "";
+
       if (geoRes.ok) {
         const geoJson = await geoRes.json();
         if (Array.isArray(geoJson) && geoJson.length > 0) {
-          const { latitude, longitude, country, state } = geoJson[0];
+          const first = geoJson[0];
+          const { latitude, longitude, country: ctry, state: st } = first;
           if (typeof latitude === "number" && typeof longitude === "number") {
+            lat = latitude;
+            lon = longitude;
             setCoords([latitude, longitude]);
           }
+          country = ctry || "";
+          state = st || "";
           setRegionInfo({
-            country: country || "",
-            state: state || "",
+            country,
+            state,
           });
+        }
+      }
+
+      if (lat != null && lon != null && cpcbStations.length > 0) {
+        const bestStation = findBestCpcbStation(
+          cpcbStations,
+          lat,
+          lon,
+          city,
+          state
+        );
+        if (bestStation) {
+          const stationAqi = computeStationAqi(bestStation);
+          if (stationAqi != null) {
+            setCpcbMatch({
+              station: bestStation.station,
+              city: bestStation.city,
+              state: bestStation.state,
+              country: bestStation.country,
+              last_update: bestStation.last_update,
+              aqi: stationAqi,
+            });
+          }
         }
       }
     } catch (err) {
@@ -502,7 +791,8 @@ function App() {
 
   useEffect(() => {
     fetchAQIAndLocation(currentCity);
-  }, [currentCity]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentCity, cpcbStations.length]);
 
   useEffect(() => {
     const q = query.trim().toLowerCase();
@@ -511,7 +801,7 @@ function App() {
       return;
     }
     const matches = CITY_SUGGESTIONS.filter((city) =>
-      city.toLowerCase().startsWith(q)
+      city.toLowerCase().includes(q)
     );
     setSuggestions(matches.slice(0, 6));
   }, [query]);
@@ -520,6 +810,7 @@ function App() {
     e.preventDefault();
     if (!query.trim()) return;
     setCurrentCity(query.trim());
+    setSuggestions([]);
   };
 
   const handleSuggestionClick = (city) => {
@@ -528,7 +819,10 @@ function App() {
     setSuggestions([]);
   };
 
-  const aqi = aqiData?.overall_aqi;
+  const cpcbAqi = cpcbMatch?.aqi ?? null;
+  const apiNinjasAqi = aqiData?.overall_aqi;
+  const aqi = cpcbAqi ?? apiNinjasAqi ?? null;
+
   const { label, color } = getAqiCategory(aqi);
   const dominant = getDominantPollutant(aqiData);
 
@@ -552,19 +846,22 @@ function App() {
     overallAqi: aqi ?? 0,
   });
 
+  const stateName = regionInfo?.state || cpcbMatch?.state;
+  const countryName = regionInfo?.country || cpcbMatch?.country;
+
   return (
     <div className="app">
       <div className="card">
         <h1>AQI Dashboard</h1>
         <p className="subtitle">
-          Search any city and get live air quality, health tips & source prediction
+          Search any city and get live air quality, health tips &amp; source
+          prediction
         </p>
 
-        {/* Search */}
         <form className="search-row" onSubmit={handleSearchSubmit}>
           <input
             type="text"
-            placeholder="Enter city name (e.g., Chandigarh, Delhi, London)"
+            placeholder="Enter city name (e.g., Jalandhar, Delhi, )"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -573,7 +870,6 @@ function App() {
           </button>
         </form>
 
-        {/* Suggestions */}
         {query.trim().length >= 2 && suggestions.length > 0 && (
           <div className="suggestions">
             {suggestions.map((city) => (
@@ -602,18 +898,37 @@ function App() {
 
         {!loading && !error && aqiData && (
           <>
-            {/* City + time */}
             <div className="city-row">
               <span className="city-name">
                 {currentCity ? currentCity.toUpperCase() : "Unknown location"}
               </span>
-              <span className="time">Last updated: just now</span>
+              <span className="time">
+                Last updated:{" "}
+                {cpcbMatch?.last_update ? cpcbMatch.last_update : "just now"}
+              </span>
             </div>
 
-            {/* AQI main block */}
+            {(stateName || countryName) && (
+              <p className="region-line">
+                {stateName && <span>{stateName}</span>}
+                {stateName && countryName && <span> · </span>}
+                {countryName && <span>{countryName}</span>}
+              </p>
+            )}
+
+            {cpcbMatch && (
+              <p className="region-line">
+                Using nearest CPCB station:{" "}
+                <strong>{cpcbMatch.station}</strong> ({cpcbMatch.city},{" "}
+                {cpcbMatch.state})
+              </p>
+            )}
+
             <div className="aqi-main">
               <div className="aqi-value" style={{ borderColor: color }}>
-                <span className="aqi-number">{aqi}</span>
+                <span className="aqi-number">
+                  {aqi != null ? aqi : "--"}
+                </span>
                 <span className="aqi-label" style={{ color }}>
                   {label}
                 </span>
@@ -621,17 +936,18 @@ function App() {
 
               <div className="aqi-info">
                 <p>
-                  <strong>Dominant pollutant:</strong>{" "}
+                  <strong>Dominant pollutant (API Ninjas):</strong>{" "}
                   {dominant ? dominant : "N/A"}
                 </p>
                 <p className="note">
-                  Lower AQI is better. Values above 100 can be harmful,
-                  especially for sensitive groups.
+                  AQI index is derived from CPCB real-time station data where
+                  available. Pollutant breakdown is from API Ninjas. Lower AQI
+                  is better. Values above 100 can be harmful, especially for
+                  sensitive groups.
                 </p>
               </div>
             </div>
 
-            {/* Map */}
             <h2>Location Map</h2>
             <div className="map-wrapper">
               <MapContainer
@@ -649,14 +965,13 @@ function App() {
                     <div>
                       <strong>{currentCity.toUpperCase()}</strong>
                       <br />
-                      AQI: {aqi} ({label})
+                      AQI: {aqi != null ? aqi : "--"} ({label})
                     </div>
                   </Popup>
                 </Marker>
               </MapContainer>
             </div>
 
-            {/* Health Advice */}
             <h2>Health Advice</h2>
             <div className="health-section">
               <p className="health-headline">{healthAdvice.headline}</p>
@@ -667,16 +982,16 @@ function App() {
                   <p className="cigarette-main">
                     Breathing the air in {currentCity.toUpperCase()} today may be
                     roughly as harmful as smoking{" "}
-                    <strong>{healthAdvice.cigarettes.perDay}</strong> cigarettes in
-                    a day.
+                    <strong>{healthAdvice.cigarettes.perDay}</strong> cigarettes
+                    in a day.
                   </p>
                   <p className="cigarette-sub">
                     Approx: {healthAdvice.cigarettes.perWeek} per week ·{" "}
                     {healthAdvice.cigarettes.perMonth} per month
                   </p>
                   <p className="cigarette-note">
-                    This is a rough visualisation based on PM2.5 exposure and is not
-                    a medical measurement.
+                    This is a rough visualisation based on PM2.5 exposure and is
+                    not a medical measurement.
                   </p>
                 </div>
               )}
@@ -705,7 +1020,6 @@ function App() {
               </div>
             </div>
 
-            {/* Source prediction (text) */}
             <h2>Likely pollution sources (AI-based guess)</h2>
             <div className="source-section">
               <p className="source-headline">{sourceInsight.title}</p>
@@ -731,7 +1045,6 @@ function App() {
               <p className="source-disclaimer">{sourceInsight.disclaimer}</p>
             </div>
 
-            {/* Pollutants cards */}
             <h2>Key Pollutants (concentration)</h2>
             <div className="pollutants-grid">
               <PollutantCard
@@ -772,7 +1085,6 @@ function App() {
               />
             </div>
 
-            {/* FINAL SECTION: Stubble burning prediction graph */}
             <h2>Stubble burning prediction – visual chart</h2>
             <PollutionSourceChart
               sourceInsight={sourceInsight}

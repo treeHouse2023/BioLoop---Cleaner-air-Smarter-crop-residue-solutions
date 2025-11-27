@@ -1,10 +1,14 @@
 .aqi-awareness {
   margin-top: 16px;
+  max-width: 1600px; /* keeps it aligned with the main layout */
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* Hero section */
+/* ========== HERO SECTION ========== */
+
 .aqi-hero h1 {
-  font-size: 26px;
+  font-size: clamp(22px, 2.2vw, 26px);
   font-weight: 700;
 }
 
@@ -12,6 +16,7 @@
   margin-top: 8px;
   font-size: 14px;
   color: #d1d5db;
+  line-height: 1.6;
 }
 
 .aqi-hero-grid {
@@ -46,7 +51,8 @@
   color: #9ca3af;
 }
 
-/* Tabs */
+/* ========== TABS ========== */
+
 .aqi-tabs-section {
   margin-top: 24px;
 }
@@ -61,6 +67,11 @@
   background: #020617;
   border: 1px solid #1f2937;
   overflow-x: auto;
+  scrollbar-width: none; /* Firefox hide scrollbar */
+}
+
+.aqi-tabs::-webkit-scrollbar {
+  display: none; /* Chrome/Safari hide scrollbar */
 }
 
 .aqi-tab-button {
@@ -72,6 +83,7 @@
   color: #e5e7eb;
   cursor: pointer;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .aqi-tab-button-active {
@@ -85,7 +97,7 @@
 }
 
 .aqi-tab-title {
-  font-size: 18px;
+  font-size: clamp(16px, 1.9vw, 18px);
   margin-bottom: 4px;
 }
 
@@ -93,9 +105,11 @@
   font-size: 13px;
   color: #d1d5db;
   margin-bottom: 10px;
+  line-height: 1.6;
 }
 
-/* Table / rows */
+/* ========== TABLE / ROWS ========== */
+
 .aqi-table {
   margin-top: 6px;
   display: flex;
@@ -119,6 +133,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  min-width: 160px;
 }
 
 .aqi-color-dot {
@@ -141,13 +156,14 @@
   color: #e5e7eb;
 }
 
-/* Daily tips section */
+/* ========== DAILY TIPS SECTION ========== */
+
 .aqi-daily-tips {
   margin-top: 24px;
 }
 
 .aqi-daily-tips h2 {
-  font-size: 18px;
+  font-size: clamp(16px, 1.9vw, 18px);
   margin-bottom: 10px;
 }
 
@@ -171,13 +187,6 @@
   margin-bottom: 4px;
 }
 
-/* Mobile tweaks */
-@media (max-width: 640px) {
-  .aqi-hero h1 {
-    font-size: 22px;
-  }
-}
-
 /* ========== SOURCE / IQAIR SECTION ========== */
 
 .aqi-source-section {
@@ -187,7 +196,7 @@
 }
 
 .aqi-source-section h2 {
-  font-size: 18px;
+  font-size: clamp(16px, 1.9vw, 18px);
   margin-bottom: 10px;
 }
 
@@ -238,4 +247,51 @@
 
 .aqi-source-link:hover {
   opacity: 0.9;
+}
+
+/* ========== RESPONSIVE BREAKPOINTS ========== */
+
+/* Mobile tweaks */
+@media (max-width: 640px) {
+  .aqi-hero h1 {
+    font-size: 22px;
+  }
+
+  .aqi-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .aqi-row-left {
+    min-width: 0;
+  }
+
+  .aqi-hero-grid,
+  .aqi-tips-grid,
+  .aqi-source-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .aqi-awareness {
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  .aqi-tabs {
+    padding: 3px;
+  }
+
+  .aqi-tab-button {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .aqi-tip-card,
+  .aqi-source-card,
+  .aqi-hero-card {
+    padding: 8px 10px;
+  }
 }

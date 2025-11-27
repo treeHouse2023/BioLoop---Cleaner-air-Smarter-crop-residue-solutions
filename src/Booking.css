@@ -1,11 +1,15 @@
 .booking-wrapper {
   margin-top: 24px;
+  max-width: 1600px; /* align with main content width */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .booking-lead {
   margin-top: 10px;
   font-size: 14px;
   color: #d1d5db;
+  line-height: 1.6;
 }
 
 .booking-steps {
@@ -14,6 +18,7 @@
   font-size: 13px;
   color: #cbd5f5;
   padding-left: 18px;
+  line-height: 1.5;
 }
 
 .booking-steps li {
@@ -25,7 +30,7 @@
 }
 
 .booking-form-heading {
-  font-size: 18px;
+  font-size: clamp(16px, 1.9vw, 18px);
   margin-bottom: 8px;
 }
 
@@ -36,6 +41,7 @@
   font-size: 14px;
 }
 
+/* GRID LAYOUT */
 .form-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -58,7 +64,7 @@
   color: #e5e7eb;
 }
 
-/* reuse your contact styles, or add these if missing */
+/* INPUTS */
 .contact-input,
 .contact-textarea {
   padding: 8px 10px;
@@ -77,6 +83,7 @@
 
 .contact-textarea {
   resize: vertical;
+  min-height: 80px;
 }
 
 .contact-submit-btn {
@@ -89,4 +96,36 @@
   font-weight: 600;
   background: #22c55e;
   color: #020617;
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 640px) {
+  .booking-wrapper {
+    margin-top: 20px;
+  }
+
+  .form-grid {
+    grid-template-columns: minmax(0, 1fr); /* single column on mobile */
+    gap: 8px;
+  }
+
+  .contact-submit-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .booking-lead {
+    font-size: 13px;
+  }
+
+  .booking-steps {
+    font-size: 12px;
+  }
+
+  .booking-form-heading {
+    font-size: 16px;
+  }
 }

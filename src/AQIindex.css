@@ -17,7 +17,7 @@ body {
   width: 100%;
   min-height: 100vh;
   margin: 0;
-  padding: 32px 24px; /* balanced spacing */
+  padding: 32px 24px; /* desktop / tablet */
   display: flex;
   justify-content: center;
 }
@@ -28,15 +28,15 @@ body {
   border: 1px solid #1f2937;
   border-radius: 18px;
   padding: 32px;
-
-  max-width: 100%; /* ⭐ Perfect centered container */
+  max-width: 1600px; /* ⭐ nice centered container */
+  width: 100%;
   margin: 0 auto;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
 }
 
 /* HEADINGS */
 h1 {
-  font-size: 28px;
+  font-size: clamp(22px, 2.2vw, 28px);
   font-weight: 700;
 }
 
@@ -419,10 +419,66 @@ h2 {
   color: #d1d5db;
 }
 
+/* ========== RESPONSIVE BREAKPOINTS ========== */
+
+/* Tablets & small laptops */
+@media (max-width: 900px) {
+  .app {
+    padding: 24px 16px;
+  }
+
+  .card {
+    padding: 24px;
+  }
+
+  .aqi-main {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+/* Mobile */
 @media (max-width: 640px) {
+  .app {
+    padding: 18px 10px;
+  }
+
+  .card {
+    padding: 18px 14px;
+  }
+
+  .city-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .aqi-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .aqi-value {
+    padding: 16px 24px;
+  }
+
+  .search-row {
+    flex-direction: column;
+  }
+
+  .search-row button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .health-lists {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .source-chart-bars {
     gap: 10px;
-    height: 160px;
+    height: 180px;
   }
 
   .source-chart-bar {
@@ -430,6 +486,27 @@ h2 {
   }
 
   .source-chart-bar-label {
-    font-size: 10px;
+    font-size: 12px;
+  }
+
+  .source-chart-bar-value {
+    font-size: 18px;
+    margin-bottom: 90px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 22px;
+  }
+
+  .aqi-info,
+  .health-summary {
+    font-size: 14px;
+  }
+
+  .source-chart {
+    padding: 10px;
   }
 }

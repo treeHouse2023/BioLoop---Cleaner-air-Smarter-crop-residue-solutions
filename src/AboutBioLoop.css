@@ -1,9 +1,11 @@
 /* Wrapper inside the global .card */
 .about-wrapper {
   padding: 28px 30px;
-  max-width: 100%;
+  max-width: 1600px; /* centers content on large screens */
+  margin: 0 auto;
   box-sizing: border-box;
   overflow-x: hidden; /* prevents any horizontal leak */
+  width: 100%;
 }
 
 /* ========== HERO ========== */
@@ -26,8 +28,9 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 28px;
+  font-size: clamp(22px, 2.1vw, 28px);
   font-weight: 800;
+  flex-wrap: wrap;
 }
 
 .about-title-pill {
@@ -41,10 +44,11 @@
   color: #020617;
   font-size: 16px;
   font-weight: 800;
+  flex-shrink: 0;
 }
 
 .about-subtitle {
-  font-size: 18px;
+  font-size: clamp(16px, 1.7vw, 18px);
   font-weight: 600;
   color: #e5e7eb;
 }
@@ -83,6 +87,7 @@
   display: block;
   width: 100%;
   height: 100%;
+  max-height: 360px;
   object-fit: cover;
 }
 
@@ -95,7 +100,7 @@
 }
 
 .about-heading {
-  font-size: 18px;
+  font-size: clamp(16px, 1.8vw, 18px);
   font-weight: 700;
   margin-bottom: 12px;
 }
@@ -200,7 +205,7 @@
   color: #d1d5db;
 }
 
-/* NEW: images inside loop cards */
+/* images inside loop cards */
 .loop-img {
   display: block;
   width: 100%;
@@ -240,7 +245,7 @@
   color: #d1d5db;
 }
 
-/* NEW: images inside feature cards */
+/* images inside feature cards */
 .feature-img {
   display: block;
   width: 100%;
@@ -293,6 +298,7 @@
   display: block;
   width: 100%;
   height: 100%;
+  max-height: 320px;
   object-fit: cover;
 }
 
@@ -318,9 +324,20 @@
 
 /* ========== RESPONSIVE ========== */
 
+/* Tablet and below */
 @media (max-width: 900px) {
   .about-hero {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .about-hero-text {
+    order: 1;
+  }
+
+  .about-hero-image {
+    order: 2;
+    max-width: 420px;
+    margin: 0 auto;
   }
 
   .about-two-col {
@@ -332,16 +349,57 @@
   }
 }
 
+/* Mobile */
 @media (max-width: 640px) {
+  .about-wrapper {
+    padding: 18px 14px;
+  }
+
   .about-title {
-    font-size: 24px;
+    font-size: 22px;
   }
 
   .about-subtitle {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .about-lead {
     font-size: 13px;
+  }
+
+  .about-hero-text {
+    text-align: left;
+  }
+
+  .about-highlight-box {
+    margin-top: 10px;
+  }
+
+  .loop-img,
+  .feature-img,
+  .about-gallery img {
+    height: 120px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .about-title {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .about-badges {
+    gap: 6px;
+  }
+
+  .about-feature-card,
+  .impact-card,
+  .loop-step {
+    padding: 10px 12px;
+  }
+
+  .about-gallery {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

@@ -23,7 +23,7 @@ body {
   width: 100%;
   min-height: 100vh;
   margin: 0;
-  padding: 32px 24px; /* balanced spacing */
+  padding: 32px 24px; /* desktop / large tablet */
   display: flex;
   justify-content: center;
   align-items: flex-start; /* start from top, not dead-center */
@@ -35,15 +35,15 @@ body {
   border: 1px solid #1f2937;
   border-radius: 18px;
   padding: 32px;
-  width: 100%;
-  max-width: 1100px; /* ⭐ centered container like most sites */
+  width: 100;
+  max-width: 1600px; /* ⭐ centered container like most sites */
   margin: 0 auto;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
 }
 
 /* HEADINGS */
 h1 {
-  font-size: 28px;
+  font-size: clamp(22px, 2.2vw, 28px);
   font-weight: 700;
 }
 
@@ -285,18 +285,86 @@ h2 {
   margin-bottom: 4px;
 }
 
-/* MOBILE RESPONSIVE TWEAKS */
-@media (max-width: 768px) {
+/* ========== RESPONSIVE BREAKPOINTS ========== */
+
+/* Tablets & small laptops */
+@media (max-width: 900px) {
   .app {
-    padding: 20px 12px;
+    padding: 24px 16px;
   }
 
   .card {
-    padding: 20px 16px;
-    border-radius: 12px;
+    padding: 24px 18px;
+    border-radius: 14px;
   }
 
   .aqi-main {
     align-items: flex-start;
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .app {
+    padding: 18px 10px;
+  }
+
+  .card {
+    padding: 18px 14px;
+    border-radius: 12px;
+  }
+
+  .city-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .aqi-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .aqi-value {
+    padding: 16px 24px;
+  }
+
+  .search-row {
+    flex-direction: column;
+  }
+
+  .search-row button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .health-lists {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .map-wrapper {
+    /* optional, so map doesn't dominate the screen */
+    max-height: 260px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 22px;
+  }
+
+  .aqi-info,
+  .health-summary {
+    font-size: 14px;
+  }
+
+  .city-name {
+    font-size: 15px;
+  }
+
+  .card {
+    padding: 16px 12px;
   }
 }
