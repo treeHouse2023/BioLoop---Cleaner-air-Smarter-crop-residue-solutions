@@ -141,3 +141,86 @@ Used to validate:
 
 # Folder Structure
 
+BioLoop/
+│── public/
+│── src/
+│ ├── components/
+│ ├── pages/
+│ ├── assets/
+│ ├── utils/
+│ ├── AQIlogic.js
+│ ├── App.jsx
+│ └── main.jsx
+│── datasets/
+│ ├── all_sitestatus20251127212414.xlsx
+│ ├── AQI_REPORT_TILL_2025.csv
+│── README.md
+│── package.json
+│── vite.config.js
+
+---
+
+# Installation
+
+```bash
+git clone https://github.com/your-username/BioLoop.git
+cd BioLoop
+npm install
+npm run dev
+
+Presentation Deck
+
+The complete project presentation is available at the link below:
+
+Canva Presentation:
+https://www.canva.com/design/DAGzRPmHyzs/s0-vU-6qfEegfDPa2Nwlvw/view?utm_content=DAGzRPmHyzs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf517cfe8f3
+
+This presentation includes:
+
+Problem statement
+
+Real-time AQI system architecture
+
+Stubble-burning research
+
+Health impact analysis
+
+Survey outcomes
+
+Business & sustainability model
+
+##Field Visit Photographs
+
+![WhatsApp Image 2025-11-28 at 10 53 07_bd61f3ca](https://github.com/user-attachments/assets/1d96acb6-4bf0-43a6-94bf-27dac6da3b4c)
+
+![WhatsApp Image 2025-11-28 at 10 54 43_0fae18be](https://github.com/user-attachments/assets/46dbe097-15d4-43f7-94d5-1954fb65415b)
+
+![WhatsApp Image 2025-11-28 at 10 54 45_961b3b32](https://github.com/user-attachments/assets/f2c452a7-7eac-47f8-a37c-80a55e316225)
+
+Contributors
+
+Nishant Chauhan – Full-Stack Development, AQI Engine
+
+Raghav Sharma – Data Analysis, Survey & Field Research
+
+Mehak Sharma – Documentation & Farmer Outreach
+
+License
+
+This project is part of the Hack for Social Cause – Ministry of Youth Affairs & Sports (VBYLD 2026).
+For academic and research use.
+
+
+---
+
+# ⭐ Ready to enhance it further?
+
+I can add:
+
+✅ Dataset preview tables  
+✅ A clickable image thumbnail for your Canva PPT (looks premium)  
+✅ Badges (React, Node.js, Vite, MIT License, APIs)  
+✅ A project logo or banner  
+✅ Screenshots of your website UI  
+
+Just tell me **“add badges”** or **“add preview table”** or upload your images.
