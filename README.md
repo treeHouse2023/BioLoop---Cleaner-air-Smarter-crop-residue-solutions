@@ -168,7 +168,9 @@ cd BioLoop
 npm install
 npm run dev
 
-Presentation Deck
+````
+
+##Presentation Deck
 
 The complete project presentation is available at the link below:
 
@@ -191,6 +193,8 @@ Business & sustainability model
 
 ##Field Visit Photographs
 
+![WhatsApp Image 2025-11-28 at 10 54 45_1d60471e](https://github.com/user-attachments/assets/d70c8601-b916-4342-82ef-2f29287c3d0a)
+
 ![WhatsApp Image 2025-11-28 at 10 53 07_bd61f3ca](https://github.com/user-attachments/assets/1d96acb6-4bf0-43a6-94bf-27dac6da3b4c)
 
 ![WhatsApp Image 2025-11-28 at 10 54 43_0fae18be](https://github.com/user-attachments/assets/46dbe097-15d4-43f7-94d5-1954fb65415b)
@@ -211,16 +215,5 @@ This project is part of the Hack for Social Cause – Ministry of Youth Affairs 
 For academic and research use.
 
 
----
 
-# ⭐ Ready to enhance it further?
 
-I can add:
-
-✅ Dataset preview tables  
-✅ A clickable image thumbnail for your Canva PPT (looks premium)  
-✅ Badges (React, Node.js, Vite, MIT License, APIs)  
-✅ A project logo or banner  
-✅ Screenshots of your website UI  
-
-Just tell me **“add badges”** or **“add preview table”** or upload your images.
