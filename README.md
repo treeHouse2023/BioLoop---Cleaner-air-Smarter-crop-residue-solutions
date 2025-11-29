@@ -1,105 +1,143 @@
-# 🌿 BioLoop – Real-Time Air Quality & Stubble Burning Intelligence Platform
+# BioLoop – Real-Time Air Quality & Stubble Burning Intelligence System
 
-BioLoop is a health-focused environmental intelligence system that provides **real-time AQI monitoring**, **pollutant-wise health interpretation**, **stubble-burning hotspot visualization**, and **awareness dashboards**.  
-Designed for Punjab–NCR, the platform helps citizens, students, families, and farmers understand **air quality risks**, **smog forecasts**, and **sustainable residue solutions**.
+BioLoop is a health-centered environmental intelligence platform designed to help citizens, students, and farmers understand real-time AQI, pollution impact, and stubble-burning hotspots, while offering sustainable alternatives through crop-residue recycling.
 
-🔗 **Live Demo:** https://bio-loop-cleaner-air-smarter-crop-r.vercel.app/  
-📦 **Tech Stack:** React (Vite), Tailwind CSS, Ninja API backend, Express/Node.js, MongoDB, Leaflet.js Maps, WAQI/CPCB APIs.
+With live AQI data, pollutant-wise health interpretation, forecasting, farmer awareness modules, and verified government datasets, BioLoop delivers a full clean-air ecosystem tailored for the Punjab–NCR region.
+
+**Live Demo:**  
+https://bio-loop-cleaner-air-smarter-crop-r.vercel.app/
+
+**Tech Stack:**  
+React (Vite), Tailwind CSS, Ninja API, Node.js, Express, MongoDB, Leaflet Maps, WAQI/CPCB APIs
 
 ---
 
-## 🚀 Features
+## Key Features
 
-### 🌬 Real-Time AQI Monitoring
-- City-wise AQI for all major Indian locations  
-- Pollutant readings: PM2.5, PM10, O₃, CO, NO₂, SO₂  
-- Color-coded health categories (Good → Hazardous)
+### Real-Time AQI Monitoring
+- AQI for 4000+ Indian districts and cities  
+- PM2.5, PM10, O₃, CO, NO₂, SO₂ readings  
+- Color-coded categories (Good → Hazardous)  
+- Health meaning for each pollutant  
 
-### 🩺 Health Impact Interpretation
-- Explains each pollutant in simple language  
-- Shows effects on **lungs, heart, and brain**  
-- Health precautions for high-risk conditions
+### Health Intelligence
+- Lung, heart, and brain impact interpretation  
+- Precautionary guidance for high-risk groups  
+- Alerts during severe smog  
 
-### 🔥 Stubble Burning Hotspots
-- Map layer showing regions affected by burning  
-- Forecast patterns using historical datasets  
-- Explains connection between burning & smog spikes
+### Stubble-Burning Hotspot Mapping
+- Punjab–Haryana burning corridor analysis  
+- Satellite-based historical data integration  
+- AQI correlation with burning intensity  
 
-### 🗺 Interactive Map Dashboard
-- Leaflet-based map with markers, popups  
-- Pollution hotspots + dynamic updates  
-- Smooth UI with Tailwind animations
+### Survey Dashboard
+- Insights from students, citizens & farmers  
+- Health-symptom trends  
+- AQI awareness levels  
 
-### 📊 Survey Dashboard (Google Forms Data)
-- Public awareness insights  
-- Pollution perception analysis  
-- Health-related responses
-
-### 🌱 Farmer Awareness Module
+### Farmer Awareness Module
 - Why burning happens  
 - Low-cost residue alternatives  
-- Sustainable eco-product model
+- Benefits of crop-residue recycling  
 
-### 🌎 Multilingual Support
-- English  
-- Punjabi (coming soon)
+### Circular Economy Model
+Crop residue converted into:
+- Biodegradable plates  
+- Organic manure  
+- Cardboard sheets  
+- Eco-friendly packaging  
 
 ---
 
-## 🛠️ Tech Stack & Tools
+# Government Data Integration & Research Datasets
 
-**Frontend:**  
+## 1. CPCB AQI Station List (4000+ locations)
+Files Included:
+- `AQI_REPORT_TILL_2025.csv`
+- `all_sitestatus20251127212414.xlsx`
+
+Contains:
+- Station IDs  
+- District + city coverage  
+- Pollutants monitored  
+- Lat/Long + station status  
+
+Used for:
+- AQI mapping  
+- Nearest-station suggestions  
+- GIS visualizations  
+
+---
+
+## 2. National AQI Dataset (Till 2025)
+File Included:
+- `datasets/AQI_REPORT_TILL_2025.csv`
+
+Contains:
+- Daily AQI values  
+- Pollutant-level readings  
+- Seasonal and regional variations  
+
+Used for:
+- Forecasting  
+- Trend analysis  
+- Smog pattern detection  
+
+---
+
+## 3. Stubble-Burning Data (Satellite + Govt Sources)
+Integrated from:
+- NASA FIRMS  
+- MoEFCC official reports  
+
+Used for:
+- Hotspot mapping  
+- Temporal burning analysis  
+- AQI correlation interpretation  
+
+---
+
+## 4. Google Form Survey Data
+Includes:
+- AQI awareness  
+- Health-effects reporting  
+- Pollution-season behavior  
+
+---
+
+## 5. Field Visit Dataset (Punjab Villages)
+Collected through:
+- Direct farmer interviews  
+- On-ground observations  
+- Photographic documentation  
+
+Used to validate:
+- Practical constraints  
+- Awareness gaps  
+- Feasibility of solutions  
+
+---
+
+# Tech Stack
+
+### Frontend
 - React.js (Vite)  
 - Tailwind CSS  
-- JavaScript & JSX  
-- Leaflet.js (Maps)  
-- AOS Animations  
+- Leaflet.js  
+- JavaScript / JSX  
 
-**Backend:**  
+### Backend
 - Node.js  
 - Express  
-- Ninja API for routing  
-- MongoDB for structured data  
-- Multer (optional uploads)
+- Ninja API  
+- MongoDB  
 
-**APIs Used:**  
-- WAQI API (Air Quality)  
-- CPCB Open Data (Pollutants & stations)  
-- Custom Ninja API endpoints  
-
----
-
-## 📁 Folder Structure
-
-BioLoop/
-│── public/
-│── src/
-│ ├── components/
-│ ├── pages/
-│ ├── assets/
-│ ├── styles/
-│ ├── hooks/
-│ ├── App.jsx
-│ ├── main.jsx
-│ └── AQIlogic.js
-│── package.json
-│── vite.config.js
-│── README.md
-
+### APIs Used
+- WAQI API  
+- CPCB Open Data  
+- Custom Express Endpoints  
 
 ---
 
-## 🔧 Installation & Setup
+# Folder Structure
 
-```bash
-# Clone the repo
-git clone https://github.com/your-username/BioLoop.git
-
-# Navigate to project folder
-cd BioLoop
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
