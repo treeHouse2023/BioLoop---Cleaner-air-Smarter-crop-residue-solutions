@@ -193,15 +193,14 @@ Business & sustainability model
 
 ##Field Visit Photographs
 
-![WhatsApp Image 2025-11-28 at 10 54 45_1d60471e](https://github.com/user-attachments/assets/d70c8601-b916-4342-82ef-2f29287c3d0a)
+![WhatsApp Image 2025-11-28 at 10 53 09_9dedd610](https://github.com/user-attachments/assets/d1bb83e4-e75a-49c3-b03e-0c967b72b135)
+![WhatsApp Image 2025-11-28 at 10 54 43_bb4a0794](https://github.com/user-attachments/assets/ed962762-819c-4399-ba0c-3b2ccdedf3b7)
+![WhatsApp Image 2025-11-28 at 10 54 45_fe3029e2](https://github.com/user-attachments/assets/212bd410-529e-4a76-a679-df8fcada027c)
+![WhatsApp Image 2025-11-28 at 10 54 56_9d1ae65f](https://github.com/user-attachments/assets/7e325313-c5a6-4b49-a6f4-9bb6c3e806b0)
+![WhatsApp Image 2025-11-27 at 18 17 43_eeb49e74](https://github.com/user-attachments/assets/8165d7da-8036-4918-bc59-0c030e880c06)
+![WhatsApp Image 2025-11-27 at 18 17 42_73fc83dc](https://github.com/user-attachments/assets/210925ec-e9cd-47fc-9f63-93d30b0096bd)
 
-![WhatsApp Image 2025-11-28 at 10 53 07_bd61f3ca](https://github.com/user-attachments/assets/1d96acb6-4bf0-43a6-94bf-27dac6da3b4c)
-
-![WhatsApp Image 2025-11-28 at 10 54 43_0fae18be](https://github.com/user-attachments/assets/46dbe097-15d4-43f7-94d5-1954fb65415b)
-
-![WhatsApp Image 2025-11-28 at 10 54 45_961b3b32](https://github.com/user-attachments/assets/f2c452a7-7eac-47f8-a37c-80a55e316225)
-
-Contributors
+##Contributors
 
 Nishant Chauhan – Full-Stack Development, AQI Engine
 
